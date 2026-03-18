@@ -46,9 +46,27 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 
 const notifications = ref([]);
+let ws;
+
+onMounted(() => {
+  ws = new WebSocket("ws://localhost:3003/ws");
+
+  ws.onopen = () => {
+    console.log("Connected to notification service WebSocket");
+  };
+
+  ws.onmessage = (event) => {
+    const newNotification = JSON.parse(event.data);
+    notifications.value.unshift(newNotification); // Add newest to the top
+  };
+});
+
+onUnmounted(() => {
+  if (ws) ws.close();
+});
 
 function formatTime(timestamp) {
   const date = new Date(timestamp);

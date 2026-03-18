@@ -7,7 +7,7 @@ const RABBITMQ_URL =
 const EXCHANGE_NAME = "suilens.events";
 const QUEUE_NAME = "notification-service.order-events";
 
-export async function startConsumer() {
+export async function startConsumer(onMessage?: (data: any) => void) {
   let retries = 0;
   const maxRetries = 10;
   const retryDelay = 2000;
@@ -42,6 +42,14 @@ export async function startConsumer() {
             });
 
             console.log(`Notification recorded for order ${orderId}`);
+
+            if (onMessage) {
+              onMessage({
+                event: event.event,
+                timestamp: new Date().toISOString(),
+                data: event.data,
+              });
+            }
           }
 
           channel.ack(msg);

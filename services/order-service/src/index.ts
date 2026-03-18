@@ -1,5 +1,6 @@
 import { Elysia, t } from "elysia";
 import { cors } from "@elysiajs/cors";
+import { swagger } from "@elysiajs/swagger";
 import { db } from "./db";
 import { orders } from "./db/schema";
 import { eq } from "drizzle-orm";
@@ -17,6 +18,13 @@ interface CatalogLens {
 
 const app = new Elysia()
   .use(cors())
+  .use(
+    swagger({
+      documentation: {
+        info: { title: "Order Service API", version: "1.0.0" },
+      },
+    })
+  )
   .post(
     "/api/orders",
     async ({ body }) => {
