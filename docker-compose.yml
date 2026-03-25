@@ -60,6 +60,7 @@ services:
 
   catalog-service:
     build: ./services/catalog-service
+    image: abyasa/catalog-service:latest
     ports:
       - "3001:3001"
     environment:
@@ -70,6 +71,7 @@ services:
 
   order-service:
     build: ./services/order-service
+    image: abyasa/order-service:latest
     ports:
       - "3002:3002"
     environment:
@@ -86,6 +88,7 @@ services:
 
   notification-service:
     build: ./services/notification-service
+    image: abyasa/notification-service:latest
     ports:
       - "3003:3003"
     environment:
@@ -99,6 +102,7 @@ services:
 
   frontend:
     build: ./frontend/suilens-frontend
+    image: abyasa/suilens-frontend:latest
     ports:
       - "5173:5173"
     environment:
